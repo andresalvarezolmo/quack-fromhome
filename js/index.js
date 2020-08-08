@@ -6,6 +6,7 @@ $(document).ready(function ()
         //enter as submit button
         if (e.which == 13) 
         {
+            checkAnswer();
             console.log("Enter pressed");
         }
     });
@@ -13,7 +14,9 @@ $(document).ready(function ()
 
 
 //This will count the total points of each player
-var pointsCounter = 0;
+var pointCounter = 0;
+//Each question points
+var roundPoints = 0;
 //This will count the total questions the user has anwered
 var answeredQuestions = 0;
 //
@@ -46,7 +49,7 @@ const questions = [
         resultState: 'Total active cases of Covid-19 in '    
     },
     {
-        enunciation: 'How many critical cases of Covid-19 have been reported in ',
+        enunciation: 'How many critical cases of Covid-19 are active in ',
         property: 'critical',
         resultState: 'Total critical cases of Covid-19 in '    
     },
@@ -72,14 +75,18 @@ const questions = [
     }
 ];
 
+var questionCounterDiv = document.getElementById('questionCounterDiv');
 async function generateQuestion(){
-    // $("#questionButton").css('display','none');
+    // questionCounterDiv.innerHTML = 'Question number' + answeredQuestions + '/10';
+    $("#questionDiv").css('display','block');
+    $("#questionButton").css('display','none');
     var question = document.getElementById('question');
     //Choose a random question by generating a random number
     selectedQuestion = Math.round(Math.random()*questions.length);
     selectedCountry = Math.round(Math.random()*countries[0].length);
     // console.log('This is the random question', selectedQuestion);
-    // console.log('This is the random Country:', countries[0][selectedCountry-1].Country)
+    // console.log('This is the random country',selectedCountry);
+    // console.log('This is the random Country:', countries[0][selectedCountry-1].Country);
     // console.log('This is the question selected:', questions[selectedQuestion-1].enunciation);
     var finalQuestion = questions[selectedQuestion-1].enunciation + countries[0][selectedCountry-1].Country + '?';
     // console.log(finalQuestion);
@@ -90,37 +97,102 @@ async function generateQuestion(){
         +'</div>'
         );
     //get request
-    await $.ajax({
-        type: "GET",
-        // url: "https://corona.lmao.ninja/v2/countries/Italy?yesterday&strict&query",
-        url: petition1+countries[0][selectedCountry-1].Country+petition2,
-        beforeSend:function()
-        {
-            console.log("Loading...");
-        },
-        error: function(e)
-        {
-            console.log("Error happened", e);
-        },
-        success: (response) => {
-            console.log('This is the response', response);
-            // console.log(response[questions[0].property]);
-            document.getElementById('result').innerHTML= questions[selectedQuestion-1].resultState + countries[0][selectedCountry-1].Country + ':\n'+ response[questions[0].property];
-        }
-    });
-    // setTimeout(()=> console.log('The API needs some time man, chill out'),5000);
+    // await $.ajax({
+    //     type: "GET",
+    //     // url: "https://corona.lmao.ninja/v2/countries/Italy?yesterday&strict&query",
+    //     url: petition1+countries[0][selectedCountry-1].Country+petition2,
+    //     beforeSend:function()
+    //     {
+    //         console.log("Loading...");
+    //     },
+    //     error: function(e)
+    //     {
+    //         console.log("Error happened", e);
+    //     },
+    //     success: (response) => {
+    //         console.log('This is the response', response);
+    //         // console.log(response[questions[0].property]);
+    //         document.getElementById('result').innerHTML= questions[selectedQuestion-1].resultState + countries[0][selectedCountry-1].Country + ':\n'+ response[questions[0].property];
+    //     }
+    // });
 }  
-// console.log(questions[0].petition1 + countries[0][selectedCountry-1].Country + questions[0].petition2);
-// console.log('Try', Math.round(Math.random()*countries[0].length));
 
-function submitAnswer(){
-    
+async function checkAnswer(){
+    // console.log(selectedQuestion);
+    // console.log(selectedCountry);
+    var userAnswer = document.getElementById('answer').value;
+    // console.log("User answer", userAnswer);
+    var intAnswer = parseInt(userAnswer);
+    // console.log(typeof(intAnswer));
+    if(Number.isInteger(intAnswer) && intAnswer>=0){
+        $("#wrongInput").css('display','none');
+        console.log('Right');
+
+
+
+        // get request
+        await $.ajax({
+            type: "GET",
+            // url: "https://corona.lmao.ninja/v2/countries/Italy?yesterday&strict&query",
+            url: petition1+countries[0][selectedCountry-1].Country+petition2,
+            beforeSend:function()
+            {
+                // console.log("Loading...");
+            },
+            error: function(e)
+            {
+                console.log("Error happened", e);
+            },
+            success: (response) => {
+                console.log('This is the response', response);
+                // console.log(response[questions[0].property]);
+                var result = response[questions[selectedQuestion-1].property];
+                console.log('Result:', result);
+                document.getElementById('result').innerHTML= questions[selectedQuestion-1].resultState + countries[0][selectedCountry-1].Country + ':\n'+ response[questions[selectedQuestion-1].property];
+                //Calculate results
+                var coefficient = Math.abs((intAnswer-result)/result);
+                console.log('Coefficient:', coefficient)
+                //If you miss by a lot
+                if(coefficient>=1){
+                    console.log("You got 0 points, your answer was really imprecise :(")
+                }
+                else{
+                    roundPoints = (1 - coefficient)*100;
+                    pointCounter = pointCounter + roundPoints;
+                    console.log('pointCounter',pointCounter);
+                    console.log('roundPoints', roundPoints)
+                    if(coefficient==0){
+                        console.log('You got all points, your accuracy was perfect');
+                    }
+                    else if(coefficient<=0.3){
+                        console.log('You got a lot of points, your accuracy was very good');
+                    }
+                    else if(coefficient<=0.6){
+                        console.log('You got some points, your accuracy was average');
+                    }
+                    else if(coefficient<=0.8){
+                        console.log('You got a few points, your accuracy was below average');
+                    }
+                    else{
+                        console.log('You got very few points, your results was imprecise');
+                    }
+                }
+            }
+        });
+
+        $("#questionButton").css('display','inline');
+        answeredQuestions++;
+    }
+    else{
+        $("#wrongInput").css('display','block');
+        console.log("Wrong");
+    }
 }
 
-function endGame(){
+// function endGame(){
     //calculate results
     //show final screen
-}
+// }
 
 const countries = [
     [
@@ -658,11 +730,6 @@ const countries = [
             "Country": "Tajikistan",
             "Slug": "tajikistan",
             "ISO2": "TJ"
-        },
-        {
-            "Country": "Venezuela (Bolivarian Republic)",
-            "Slug": "venezuela",
-            "ISO2": "VE"
         },
         {
             "Country": "Iceland",

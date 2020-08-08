@@ -21,18 +21,24 @@
 <body>
     <br><br><br><br>
     <div class="text-center">
-        <h1>Covid-19 is not a joke, are you aware of the numbers?</h1>
-        <br><br><br>
-        <button class="btn btn-primary" onclick="generateQuestion()" id="questionButton">Generate Question</button>
+        <h1>Covid-19 is not a joke, are you aware of its impact among our world?</h1>
+        <br>
+        <button class="btn btn-primary" onclick="generateQuestion()" id="questionButton">Generate new question</button>
         <br>
         <br>
-        <h4 id="question">Question</h4>
+        <div id="questionDiv">
+            <h4 id="questionCounterDiv"> </h4>
+            <h4 id="question"> </h4>
             <label for="answer"></label>
             <input type="text" placeholder="Your answer" id="answer">
-            <button class="btn btn-success" type="button" onclick="submitAnswer()">Submit answer</button>
-            
+            <button class="btn btn-success" type="button" onclick="checkAnswer()">Submit answer</button>
+            <br>
             <hr>
-            <h4 id="result"></h4>
+            <p id="wrongInput">Please enter a valid input</p>
+            <div id="resultDiv">
+                <h4 id="result"></h4>
+            </div>
+        </div>
     </div>
 </body>
 </html>
