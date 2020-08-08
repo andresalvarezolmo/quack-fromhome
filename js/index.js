@@ -1,7 +1,7 @@
 $(document).ready(function () 
 {
     console.log("Jquery working");
-    $("#city").keypress(function (e) 
+    $("#answer").keypress(function (e) 
     {
         //enter as submit button
         if (e.which == 13) 
@@ -11,71 +11,111 @@ $(document).ready(function ()
     });
 });
 
-
-
-
-
 //This will count the total points of each player
 var pointsCounter = 0;
 //This will count the total questions the user has anwered
 var answeredQuestions = 0;
-const questionNumber = 7;
+//Petition URL
+const petition1 = 'https://corona.lmao.ninja/v2/countries/';
+const petition2 = '?yesterday&strict&query';
 const questions = [
     //last day cases/deaths/
     //total cases/active cases/deaths/recovered/tests/population
     {
-        enunciation: 'How many new cases were reported yesteday in ',
-        petition1: 'https://corona.lmao.ninja/v2/countries/',
-        petition2: '?yesterday=true&strict=true&query'
+        enunciation: 'How many total cases of Covid-19 have been reported in ',
+        property: 'cases',
+        resultState: 'Total cases of Covid-19 in '  
     },
     {
-        enunciation: 'How many new deaths were reported yesteday in ',
-        petition: ''
+        enunciation: 'How many total deaths by Covid-19 have been reported in ',
+        property: 'deaths',
+        resultState: 'Total deaths by Covid-19 reported in '
     },
     {
-        enunciation: 'How many total cases have been reported in ',
-        petition: ''
+        enunciation: 'How many people have recovered from Covid-19 in ',
+        property: 'recovered',
+        resultState: 'Total people recovered from Covid-19 in '    
     },
     {
-        enunciation: 'How many total deaths have been reported in ',
-        petition: ''
+        enunciation: 'How many actives cases of Covid-19 are there in ',
+        property: 'active',
+        resultState: 'Total active cases of Covid-19 in '    
     },
     {
-        enunciation: 'How many recovered patients have been reported in ',
-        petition: ''
+        enunciation: 'How many critical cases of Covid-19 are there in ',
+        property: 'critical',
+        resultState: 'Total critical cases of Covid-19 in '    
     },
     {
-        enunciation: 'How many PCR tests have been made to the population in total in ',
-        petition: ''
+        enunciation: 'How many PCR tests have been done in ',
+        property: 'tests',
+        resultState: 'Total PCR tests done in '    
     },
     {
-        enunciation: 'How many active cases are there in ',
-        petition: ''
+        enunciation: 'How many cases of Covid-19 per one million are in ',
+        property: 'casesPerOneMillion',
+        resultState: 'Cases of Covid-19 per one million in '    
     },
     {
-        enunciation: 'What is the total population in ',
-        petition: ''
+        enunciation: 'How many deaths of Covid-19 per one million are in ',
+        property: 'deathsPerOneMillion',
+        resultState: 'Deaths of Covid-19 per on million in '    
+    },
+    {
+        enunciation: 'What is the total population of ',
+        property: 'population',
+        resultState: 'Total population in '
     }
 ];
 
-function generateQuestion(){
+async function generateQuestion(){
+    console.log();
     var question = document.getElementById('question');
     //Choose a random question by generating a random number
-    var selectedQuestion = Math.round(Math.random()*questionNumber);
+    var selectedQuestion = Math.round(Math.random()*questions.length);
     var selectedCountry = Math.round(Math.random()*countries[0].length);
-    console.log('This is the random question', selectedQuestion);
-    console.log('This is the random Country:', countries[0][selectedCountry-1].Country)
-    console.log('This is the question selected:', questions[selectedQuestion-1].enunciation);
+    // console.log('This is the random question', selectedQuestion);
+    // console.log('This is the random Country:', countries[0][selectedCountry-1].Country)
+    // console.log('This is the question selected:', questions[selectedQuestion-1].enunciation);
     var finalQuestion = questions[selectedQuestion-1].enunciation + countries[0][selectedCountry-1].Country + '?';
-    console.log(finalQuestion);
+    // console.log(finalQuestion);
     question.innerHTML = finalQuestion;
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-
+    $("#question").append(
+        '<div class="text-center">'
+        +'<img src="https://www.countryflags.io/' + countries[0][selectedCountry-1].ISO2 + '/flat/64.png">'
+        +'</div>'
+        );
+    //get request
+    await $.ajax({
+        type: "GET",
+        // url: "https://corona.lmao.ninja/v2/countries/Italy?yesterday&strict&query",
+        url: petition1+countries[0][selectedCountry-1].Country+petition2,
+        beforeSend:function()
+        {
+            console.log("Loading...");
+        },
+        error: function(e)
+        {
+            console.log("Error happened", e);
+        },
+        success: (response) => {
+            console.log('This is the response', response);
+            // console.log(response[questions[0].property]);
+            document.getElementById('result').innerHTML= questions[selectedQuestion-1].resultState + countries[0][selectedCountry-1].Country + ':\n'+ response[questions[0].property];
+        }
+    });
+    // setTimeout(()=> console.log('The API needs some time man, chill out'),5000);
 }  
+// console.log(questions[0].petition1 + countries[0][selectedCountry-1].Country + questions[0].petition2);
 // console.log('Try', Math.round(Math.random()*countries[0].length));
 
 function submitAnswer(){
     
+}
+
+function endGame(){
+    //calculate results
+    //show final screen
 }
 
 const countries = [
