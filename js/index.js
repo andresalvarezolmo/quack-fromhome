@@ -1,4 +1,19 @@
-// import {countries} from "./countries"
+$(document).ready(function () 
+{
+    console.log("Jquery working");
+    $("#city").keypress(function (e) 
+    {
+        //enter as submit button
+        if (e.which == 13) 
+        {
+            console.log("Enter pressed");
+        }
+    });
+});
+
+
+
+
 
 //This will count the total points of each player
 var pointsCounter = 0;
@@ -10,7 +25,8 @@ const questions = [
     //total cases/active cases/deaths/recovered/tests/population
     {
         enunciation: 'How many new cases were reported yesteday in ',
-        petition: ''
+        petition1: 'https://corona.lmao.ninja/v2/countries/',
+        petition2: '?yesterday=true&strict=true&query'
     },
     {
         enunciation: 'How many new deaths were reported yesteday in ',
@@ -49,12 +65,18 @@ function generateQuestion(){
     var selectedCountry = Math.round(Math.random()*countries[0].length);
     console.log('This is the random question', selectedQuestion);
     console.log('This is the random Country:', countries[0][selectedCountry-1].Country)
-    // console.log('This is the question selected:', questions[selectedQuestion-1].enunciation);
+    console.log('This is the question selected:', questions[selectedQuestion-1].enunciation);
     var finalQuestion = questions[selectedQuestion-1].enunciation + countries[0][selectedCountry-1].Country + '?';
     console.log(finalQuestion);
     question.innerHTML = finalQuestion;
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
+
 }  
 // console.log('Try', Math.round(Math.random()*countries[0].length));
+
+function submitAnswer(){
+    
+}
 
 const countries = [
     [

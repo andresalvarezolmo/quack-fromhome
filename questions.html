@@ -8,8 +8,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <!-- Jquery -->
+    <script src="js/jquery/jquery-3.5.0.min.js"></script>
+    <!-- UI -->
+    <script src="js/jquery/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="js/jquery/jquery-ui-1.12.1/jquery-ui.structure.min.css"></script>
+    <script src="js/jquery/jquery-ui-1.12.1/jquery-ui.theme.min.css"></script>
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> -->
-    <script rel="text/javascript" src="./index.js"></script>
+    <script rel="text/javascript" src="js/index.js"></script>
     <!-- <script rel="text/javascript" src="./countries.js"></script> -->
 
 </head>
@@ -24,10 +29,9 @@
         <br>
         <p id="question">Question</p>
         <br>
-        <form action="">
             <label for="answer"></label>
-            <input type="text" placeholder="Enter here your answer">
-        </form>
+            <input type="text" placeholder="Your answer">
+            <button class="btn btn-success" type="button" onclick="submitAnswer()">Submit answer</button>
     </div>
 </body>
 </html>
