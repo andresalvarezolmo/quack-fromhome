@@ -77,7 +77,6 @@ const questions = [
 
 var questionCounterDiv = document.getElementById('questionCounterDiv');
 async function generateQuestion(){
-    // questionCounterDiv.innerHTML = 'Question number' + answeredQuestions + '/10';
     $("#questionDiv").css('display','block');
     $("#questionButton").css('display','none');
     var question = document.getElementById('question');
@@ -89,55 +88,33 @@ async function generateQuestion(){
     // console.log('This is the random Country:', countries[0][selectedCountry-1].Country);
     // console.log('This is the question selected:', questions[selectedQuestion-1].enunciation);
     var finalQuestion = questions[selectedQuestion-1].enunciation + countries[0][selectedCountry-1].Country + '?';
-    // console.log(finalQuestion);
     question.innerHTML = finalQuestion;
     $("#question").append(
         '<div class="text-center">'
         +'<img src="https://www.countryflags.io/' + countries[0][selectedCountry-1].ISO2 + '/flat/64.png">'
         +'</div>'
         );
-    //get request
-    // await $.ajax({
-    //     type: "GET",
-    //     // url: "https://corona.lmao.ninja/v2/countries/Italy?yesterday&strict&query",
-    //     url: petition1+countries[0][selectedCountry-1].Country+petition2,
-    //     beforeSend:function()
-    //     {
-    //         console.log("Loading...");
-    //     },
-    //     error: function(e)
-    //     {
-    //         console.log("Error happened", e);
-    //     },
-    //     success: (response) => {
-    //         console.log('This is the response', response);
-    //         // console.log(response[questions[0].property]);
-    //         document.getElementById('result').innerHTML= questions[selectedQuestion-1].resultState + countries[0][selectedCountry-1].Country + ':\n'+ response[questions[0].property];
-    //     }
-    // });
 }  
 
 async function checkAnswer(){
-    // console.log(selectedQuestion);
-    // console.log(selectedCountry);
+
+    if(answeredQuestions==8){
+        endGame();
+        return;
+    }
     var userAnswer = document.getElementById('answer').value;
-    // console.log("User answer", userAnswer);
     var intAnswer = parseInt(userAnswer);
-    // console.log(typeof(intAnswer));
     if(Number.isInteger(intAnswer) && intAnswer>=0){
         $("#wrongInput").css('display','none');
         console.log('Right');
 
-
-
         // get request
         await $.ajax({
             type: "GET",
-            // url: "https://corona.lmao.ninja/v2/countries/Italy?yesterday&strict&query",
             url: petition1+countries[0][selectedCountry-1].Country+petition2,
             beforeSend:function()
             {
-                // console.log("Loading...");
+                console.log("Loading...");
             },
             error: function(e)
             {
@@ -152,16 +129,23 @@ async function checkAnswer(){
                 //Calculate results
                 var coefficient = Math.abs((intAnswer-result)/result);
                 console.log('Coefficient:', coefficient)
+                var roundPointsDiv = document.getElementById('roundPointsDiv');
+                var totalPointsDiv = document.getElementById('totalPointsDiv');
+
                 //If you miss by a lot
                 if(coefficient>=1){
-                    console.log("You got 0 points, your answer was really imprecise :(")
+                    console.log("You got 0 points, your answer was really imprecise :(");
+                    roundPointsDiv.innerHTML = 'Last round points: '+ roundPoints;
+                    totalPointsDiv.innerHTML = 'Total points: ' + pointCounter;
                 }
                 else{
-                    roundPoints = (1 - coefficient)*100;
-                    pointCounter = pointCounter + roundPoints;
+                    roundPoints = Math.round(((1 - coefficient)*100));
+                    pointCounter = Math.round(pointCounter + roundPoints);
                     console.log('pointCounter',pointCounter);
-                    console.log('roundPoints', roundPoints)
-                    if(coefficient==0){
+                    console.log('roundPoints', roundPoints);
+                    roundPointsDiv.innerHTML = 'Last round points: '+ roundPoints;
+                    totalPointsDiv.innerHTML = 'Total points: ' + pointCounter;
+                    if(coefficient<=0.1){
                         console.log('You got all points, your accuracy was perfect');
                     }
                     else if(coefficient<=0.3){
@@ -179,8 +163,9 @@ async function checkAnswer(){
                 }
             }
         });
-
+        // $("#eachQuestion").css('display','none');
         $("#questionButton").css('display','inline');
+
         answeredQuestions++;
     }
     else{
@@ -189,10 +174,16 @@ async function checkAnswer(){
     }
 }
 
-// function endGame(){
-    //calculate results
-    //show final screen
-// }
+function endGame(){
+    // calculate results
+    // show final screen
+    $("#questionDiv").css('display','none');
+    $("#roundPointsDiv").css('display','none');
+    $("#totalPointsDiv").css('display','none');
+    $("#results").css('display','block');
+    var totalPoints = document.getElementById('totalPoints');
+    totalPoints.innerHTML = 'You got: ' + pointCounter + ' points'
+}
 
 const countries = [
     [
@@ -200,11 +191,6 @@ const countries = [
             "Country": "Western Sahara",
             "Slug": "western-sahara",
             "ISO2": "EH"
-        },
-        {
-            "Country": "American Samoa",
-            "Slug": "american-samoa",
-            "ISO2": "AS"
         },
         {
             "Country": "Georgia",
@@ -287,11 +273,6 @@ const countries = [
             "ISO2": "GD"
         },
         {
-            "Country": "Tuvalu",
-            "Slug": "tuvalu",
-            "ISO2": "TV"
-        },
-        {
             "Country": "Aruba",
             "Slug": "aruba",
             "ISO2": "AW"
@@ -316,16 +297,7 @@ const countries = [
             "Slug": "libya",
             "ISO2": "LY"
         },
-        {
-            "Country": "Saint Kitts and Nevis",
-            "Slug": "saint-kitts-and-nevis",
-            "ISO2": "KN"
-        },
-        {
-            "Country": "Syrian Arab Republic (Syria)",
-            "Slug": "syria",
-            "ISO2": "SY"
-        },
+    
         {
             "Country": "Bolivia",
             "Slug": "bolivia",
@@ -427,11 +399,6 @@ const countries = [
             "ISO2": "KI"
         },
         {
-            "Country": "Saint Helena",
-            "Slug": "saint-helena",
-            "ISO2": "SH"
-        },
-        {
             "Country": "Chad",
             "Slug": "chad",
             "ISO2": "TD"
@@ -510,11 +477,6 @@ const countries = [
             "Country": "Isle of Man",
             "Slug": "isle-of-man",
             "ISO2": "IM"
-        },
-        {
-            "Country": "Saint Lucia",
-            "Slug": "saint-lucia",
-            "ISO2": "LC"
         },
         {
             "Country": "Bangladesh",
@@ -832,11 +794,6 @@ const countries = [
             "ISO2": "DK"
         },
         {
-            "Country": "Guernsey",
-            "Slug": "guernsey",
-            "ISO2": "GG"
-        },
-        {
             "Country": "Vanuatu",
             "Slug": "vanuatu",
             "ISO2": "VU"
@@ -865,21 +822,6 @@ const countries = [
             "Country": "El Salvador",
             "Slug": "el-salvador",
             "ISO2": "SV"
-        },
-        {
-            "Country": "Greenland",
-            "Slug": "greenland",
-            "ISO2": "GL"
-        },
-        {
-            "Country": "Réunion",
-            "Slug": "réunion",
-            "ISO2": "RE"
-        },
-        {
-            "Country": "Samoa",
-            "Slug": "samoa",
-            "ISO2": "WS"
         },
         {
             "Country": "Suriname",
@@ -935,11 +877,6 @@ const countries = [
             "Country": "Cyprus",
             "Slug": "cyprus",
             "ISO2": "CY"
-        },
-        {
-            "Country": "Gibraltar",
-            "Slug": "gibraltar",
-            "ISO2": "GI"
         },
         {
             "Country": "Macedonia, Republic of",

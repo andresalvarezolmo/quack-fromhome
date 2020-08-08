@@ -16,28 +16,41 @@
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> -->
     <script rel="text/javascript" src="js/index.js"></script>
     <!-- <script rel="text/javascript" src="./countries.js"></script> -->
-
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
-    <br><br><br><br>
+    <br><br>
     <div class="text-center">
-        <h1>Covid-19 is not a joke, are you aware of its impact among our world?</h1>
+        <h3>Covid-19 is not a joke, are you aware of its impact among our world?</h3>
         <br>
         <button class="btn btn-primary" onclick="generateQuestion()" id="questionButton">Generate new question</button>
         <br>
         <br>
         <div id="questionDiv">
             <h4 id="questionCounterDiv"> </h4>
-            <h4 id="question"> </h4>
-            <label for="answer"></label>
-            <input type="text" placeholder="Your answer" id="answer">
-            <button class="btn btn-success" type="button" onclick="checkAnswer()">Submit answer</button>
+            <div id="eachQuestion">
+                <h4 id="question"> </h4>
+                <label for="answer"></label>
+                <input type="text" placeholder="Your answer" id="answer">
+                <button class="btn btn-success" type="button" onclick="checkAnswer()">Submit answer</button>
+            </div>
             <br>
             <hr>
             <p id="wrongInput">Please enter a valid input</p>
             <div id="resultDiv">
                 <h4 id="result"></h4>
             </div>
+        </div>
+        <div id="roundPointsDiv"> </div>
+        <div id="totalPointsDiv"> </div>
+        <div id="results">
+            <h2 id="totalPoints"></h2>
+            <br><br>
+            <h4>Please remember to:</h4>
+            <h4>Keep social distance</h4>
+            <h4>Wear face masks at busy places</h4>
+            <h4>Follow health guidelines from NHS and health organizations</h4>
         </div>
     </div>
 </body>

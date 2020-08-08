@@ -1,5 +1,6 @@
 body{
-    background-color:#2D848A;
+    font-family: 'Comfortaa', cursive;
+    background-color:#14213d;
     margin-left: 10%;
     margin-right: 10%;
 }
@@ -24,7 +25,23 @@ img{
 #questionDiv{
     display: none;
 }
+p{
+    color: white;
+}
 
-#resultDiv{
-    
+h2,h3,h4{
+    color:white;
+}
+#title{
+    color: white;
+}
+#results{
+    display: none;
+}
+
+#title{
+    color: red;
+}
+#roundPointsDiv, #totalPointsDiv{
+    color: white;
 }
