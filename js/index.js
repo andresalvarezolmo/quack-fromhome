@@ -11,10 +11,14 @@ $(document).ready(function ()
     });
 });
 
+
 //This will count the total points of each player
 var pointsCounter = 0;
 //This will count the total questions the user has anwered
 var answeredQuestions = 0;
+//
+var selectedQuestion = 0;
+var selectedCountry = 0;
 //Petition URL
 const petition1 = 'https://corona.lmao.ninja/v2/countries/';
 const petition2 = '?yesterday&strict&query';
@@ -42,7 +46,7 @@ const questions = [
         resultState: 'Total active cases of Covid-19 in '    
     },
     {
-        enunciation: 'How many critical cases of Covid-19 are there in ',
+        enunciation: 'How many critical cases of Covid-19 have been reported in ',
         property: 'critical',
         resultState: 'Total critical cases of Covid-19 in '    
     },
@@ -52,12 +56,12 @@ const questions = [
         resultState: 'Total PCR tests done in '    
     },
     {
-        enunciation: 'How many cases of Covid-19 per one million are in ',
+        enunciation: 'How many cases of Covid-19 per one million have been reported in ',
         property: 'casesPerOneMillion',
         resultState: 'Cases of Covid-19 per one million in '    
     },
     {
-        enunciation: 'How many deaths of Covid-19 per one million are in ',
+        enunciation: 'How many deaths of Covid-19 per one million have been reported in ',
         property: 'deathsPerOneMillion',
         resultState: 'Deaths of Covid-19 per on million in '    
     },
@@ -69,11 +73,11 @@ const questions = [
 ];
 
 async function generateQuestion(){
-    console.log();
+    // $("#questionButton").css('display','none');
     var question = document.getElementById('question');
     //Choose a random question by generating a random number
-    var selectedQuestion = Math.round(Math.random()*questions.length);
-    var selectedCountry = Math.round(Math.random()*countries[0].length);
+    selectedQuestion = Math.round(Math.random()*questions.length);
+    selectedCountry = Math.round(Math.random()*countries[0].length);
     // console.log('This is the random question', selectedQuestion);
     // console.log('This is the random Country:', countries[0][selectedCountry-1].Country)
     // console.log('This is the question selected:', questions[selectedQuestion-1].enunciation);
