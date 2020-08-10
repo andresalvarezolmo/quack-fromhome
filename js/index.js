@@ -77,6 +77,7 @@ const questions = [
 
 var questionCounterDiv = document.getElementById('questionCounterDiv');
 async function generateQuestion(){
+    $("#eachQuestion").css('display','block');
     $("#questionDiv").css('display','block');
     $("#questionButton").css('display','none');
     var question = document.getElementById('question');
@@ -124,27 +125,28 @@ async function checkAnswer(){
                 console.log('This is the response', response);
                 // console.log(response[questions[0].property]);
                 var result = response[questions[selectedQuestion-1].property];
-                console.log('Result:', result);
+                // console.log('Result:', result);
                 document.getElementById('result').innerHTML= questions[selectedQuestion-1].resultState + countries[0][selectedCountry-1].Country + ':\n'+ response[questions[selectedQuestion-1].property];
                 //Calculate results
                 var coefficient = Math.abs((intAnswer-result)/result);
                 console.log('Coefficient:', coefficient)
                 var roundPointsDiv = document.getElementById('roundPointsDiv');
                 var totalPointsDiv = document.getElementById('totalPointsDiv');
+                var inputAnswer = document.getElementById('inputAnswer');
 
                 //If you miss by a lot
                 if(coefficient>=1){
                     console.log("You got 0 points, your answer was really imprecise :(");
-                    roundPointsDiv.innerHTML = 'Last round points: '+ roundPoints;
-                    totalPointsDiv.innerHTML = 'Total points: ' + pointCounter;
+                    // roundPointsDiv.innerHTML = 'Last round points: '+ roundPoints;
+                    // totalPointsDiv.innerHTML = 'Total points: ' + pointCounter;
                 }
                 else{
                     roundPoints = Math.round(((1 - coefficient)*100));
                     pointCounter = Math.round(pointCounter + roundPoints);
-                    console.log('pointCounter',pointCounter);
-                    console.log('roundPoints', roundPoints);
-                    roundPointsDiv.innerHTML = 'Last round points: '+ roundPoints;
-                    totalPointsDiv.innerHTML = 'Total points: ' + pointCounter;
+                    // console.log('pointCounter',pointCounter);
+                    // console.log('roundPoints', roundPoints);
+                    // roundPointsDiv.innerHTML = 'Last round points: '+ roundPoints;
+                    // totalPointsDiv.innerHTML = 'Total points: ' + pointCounter;
                     if(coefficient<=0.1){
                         console.log('You got all points, your accuracy was perfect');
                     }
@@ -163,7 +165,12 @@ async function checkAnswer(){
                 }
             }
         });
-        // $("#eachQuestion").css('display','none');
+        document.getElementById('answer').value = '';
+        inputAnswer.innerHTML = 'Your answer was: ' + intAnswer;
+        roundPointsDiv.innerHTML = 'Last round points: '+ roundPoints;
+        totalPointsDiv.innerHTML = 'Total points: ' + pointCounter;
+        
+        $("#eachQuestion").css('display','none');
         $("#questionButton").css('display','inline');
 
         answeredQuestions++;
@@ -509,11 +516,6 @@ const countries = [
             "ISO2": "NR"
         },
         {
-            "Country": "Tonga",
-            "Slug": "tonga",
-            "ISO2": "TO"
-        },
-        {
             "Country": "Barbados",
             "Slug": "barbados",
             "ISO2": "BB"
@@ -617,11 +619,6 @@ const countries = [
             "Country": "Yemen",
             "Slug": "yemen",
             "ISO2": "YE"
-        },
-        {
-            "Country": "Bahrain",
-            "Slug": "bahrain",
-            "ISO2": "BH"
         },
         {
             "Country": "Spain",

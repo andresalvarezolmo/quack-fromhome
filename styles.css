@@ -42,6 +42,6 @@ h2,h3,h4{
 #title{
     color: red;
 }
-#roundPointsDiv, #totalPointsDiv{
+#roundPointsDiv, #totalPointsDiv, #userAnswer{
     color: white;
 }
