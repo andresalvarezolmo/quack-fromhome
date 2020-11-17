@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions Quiz Covid-19</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Jquery -->
+    <script src="js/jquery/jquery-3.5.0.min.js"></script>
+    <!-- UI -->
+    <script src="js/jquery/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="js/jquery/jquery-ui-1.12.1/jquery-ui.structure.min.css"></script>
+    <script src="js/jquery/jquery-ui-1.12.1/jquery-ui.theme.min.css"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> -->
+    <script rel="text/javascript" src="js/index.js"></script>
+    <!-- <script rel="text/javascript" src="./countries.js"></script> -->
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+</head>
+<body>
+    <br><br>
+    <div class="text-center">
+        <h3>Covid-19 is not a joke, are you aware of its impact among our world?</h3>
+        <br>
+        <button class="btn btn-primary" onclick="generateQuestion()" id="questionButton">Generate new question</button>
+        <br>
+        <br>
+        <div id="questionDiv">
+            <h4 id="questionCounterDiv"> </h4>
+            <div id="eachQuestion">
+                <h4 id="question"> </h4>
+                <label for="answer"></label>
+                <input type="text" placeholder="Your answer" id="answer">
+                <button class="btn btn-success" type="button" onclick="checkAnswer()">Submit answer</button>
+            </div>
+            <br>
+            <hr>
+            <p id="wrongInput">Please enter a valid input</p>
+            <div id="resultDiv">
+                <h4 id="result"></h4>
+                <h4 id="inputAnswer"></h4>
+            </div>
+        </div>
+        <div id="roundPointsDiv"> </div>
+        <div id="totalPointsDiv"> </div>
+        <div id="results">
+            <h2 id="totalPoints"></h2>
+            <br><br>
+            <h4>Please remember to:</h4>
+            <h4>Keep social distance</h4>
+            <h4>Wear face masks at busy places</h4>
+            <h4>Follow health guidelines from NHS and health organizations</h4>
+        </div>
+    </div>
+</body>
+</html>

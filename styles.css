@@ -1,0 +1,47 @@
+body{
+    font-family: 'Comfortaa', cursive;
+    background-color:#14213d;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+input{
+    border-radius: 15px;
+    border: 1px solid grey;
+    padding: 20px; 
+    width: 150px;
+    height: 15px;    
+}
+
+img{
+    width: 110px;
+    height: 110px;
+}
+#wrongInput{
+    display: none;
+    color: red;
+    font-size: large;
+}
+
+#questionDiv{
+    display: none;
+}
+p{
+    color: white;
+}
+
+h2,h3,h4{
+    color:white;
+}
+#title{
+    color: white;
+}
+#results{
+    display: none;
+}
+
+#title{
+    color: red;
+}
+#roundPointsDiv, #totalPointsDiv, #userAnswer{
+    color: white;
+}
